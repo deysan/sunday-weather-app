@@ -3,6 +3,7 @@ import {
   Box,
   Card,
   CardMedia,
+  CircularProgress,
   IconButton,
   Menu,
   MenuItem,
@@ -61,55 +62,69 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
     handleClose();
   };
 
-  if (!weather) return <h1>Loading...</h1>;
-
   return (
     <Card sx={{ height: 300, width: 240, padding: 2 }}>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Typography>{weather.dt}</Typography>
-
-        <IconButton
-          aria-label="setting"
-          aria-controls={open ? 'basic-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
-          onClick={handleClick}
+      {!weather ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="100%"
         >
-          <MoreHorizRounded />
-        </IconButton>
-        <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            'aria-labelledby': 'basic-button'
-          }}
-        >
-          <MenuItem onClick={handleDispatch}>Remove City</MenuItem>
-        </Menu>
-      </Box>
-      <Box display="flex" justifyContent="space-around" alignItems="center">
-        <Box>
-          <Typography>{weather.temp}</Typography>
+          <CircularProgress />
         </Box>
-        <Box display="flex" justifyContent="center">
-          <CardMedia
-            component="img"
-            width="50"
-            image={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
-            alt={weather.weather[0].description}
-          />
-        </Box>
-      </Box>
-      <Box display="flex" alignItems="center">
-        <LocationOnRounded />
-        <Typography>{city?.name}</Typography>
-      </Box>
-      <Box>
-        <Typography>Wind {weather.wind_speed} m/s</Typography>
-        <Typography>Humidity {weather.humidity} %</Typography>
-        <Typography>Pressure {weather.pressure} hPa</Typography>
-      </Box>
+      ) : (
+        <>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Typography>{weather.dt}</Typography>
+            <IconButton
+              aria-label="setting"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <MoreHorizRounded />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button'
+              }}
+            >
+              <MenuItem onClick={handleDispatch}>Remove City</MenuItem>
+            </Menu>
+          </Box>
+          <Box display="flex" justifyContent="space-around" alignItems="center">
+            <Box>
+              <Typography>{weather.temp}</Typography>
+            </Box>
+            <Box display="flex" justifyContent="center">
+              <CardMedia
+                component="img"
+                width="50"
+                image={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+                alt={weather.weather[0].description}
+              />
+            </Box>
+          </Box>
+          <Box display="flex" alignItems="center">
+            <LocationOnRounded />
+            <Typography>{city?.name}</Typography>
+          </Box>
+          <Box>
+            <Typography>Wind {weather.wind_speed} m/s</Typography>
+            <Typography>Humidity {weather.humidity} %</Typography>
+            <Typography>Pressure {weather.pressure} hPa</Typography>
+          </Box>
+        </>
+      )}
     </Card>
   );
 };
