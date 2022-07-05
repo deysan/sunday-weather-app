@@ -1,14 +1,10 @@
 import { RootState } from './../index';
-import {
-  createSlice,
-  createEntityAdapter,
-  PayloadAction
-} from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 type City = {
   name: string;
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 };
 
 const citiesAdapter = createEntityAdapter<City>({
@@ -19,14 +15,19 @@ const citiesSlice = createSlice({
   name: 'cities',
   initialState: citiesAdapter.getInitialState(),
   reducers: {
-    addCity: citiesAdapter.addOne
+    addCity: citiesAdapter.addOne,
+    removeCity: citiesAdapter.removeOne
   }
 });
 
-export const { addCity } = citiesSlice.actions;
+export const { addCity, removeCity } = citiesSlice.actions;
 
 export const citiesReducer = citiesSlice.reducer;
 
-export const cities = citiesAdapter.getSelectors<RootState>(
+export const selectAllCities = citiesAdapter.getSelectors<RootState>(
   (state) => state.cities
 ).selectIds;
+
+export const selectCityById = citiesAdapter.getSelectors<RootState>(
+  (state) => state.cities
+).selectById;

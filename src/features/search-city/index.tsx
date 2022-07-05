@@ -37,8 +37,8 @@ interface PlaceType {
 }
 
 type Geocode = {
-  lat: string;
-  lng: string;
+  lat: number;
+  lng: number;
 };
 
 type SearchCityProps = {
@@ -81,16 +81,24 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
     []
   );
 
-  const handleCity = async (cityId: string) => {
-    const geocode = await axios
-      .get(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${cityId}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
-      )
-      .then((response) => response.data?.results?.[0]?.geometry?.location)
-      .then((data) =>
-        dispatch(addCity([value?.structured_formatting.main_text, ...data]))
-      );
-  };
+  const handleCity = useMemo(
+    () => async (cityId: string) => {
+      await axios
+        .get(
+          `https://maps.googleapis.com/maps/api/geocode/json?place_id=${cityId}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+        )
+        .then((response) => response.data?.results?.[0]?.geometry?.location)
+        .then((data: Geocode) =>
+          dispatch(
+            addCity({
+              name: value?.structured_formatting.main_text || '',
+              ...data
+            })
+          )
+        );
+    },
+    [dispatch, value]
+  );
 
   useEffect(() => {
     let active = true;
@@ -134,7 +142,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch, closeSearch]);
+  }, [value, inputValue, fetch, closeSearch, handleCity]);
 
   return (
     <Autocomplete
@@ -149,11 +157,11 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
       includeInputInList
       filterSelectedOptions
       value={value}
-      onChange={(event: any, newValue: PlaceType | null) => {
+      onChange={(_, newValue: PlaceType | null) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
       }}
-      onInputChange={(event, newInputValue) => {
+      onInputChange={(_, newInputValue) => {
         setInputValue(newInputValue);
       }}
       renderInput={(params) => (
