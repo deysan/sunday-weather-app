@@ -13,8 +13,6 @@ const MainPage: React.FC<MainPageProps> = () => {
 
   const cities = useAppSelector(selectAllCities);
 
-  console.log(cities);
-
   return (
     <Container
       sx={{
