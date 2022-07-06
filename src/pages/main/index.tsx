@@ -16,25 +16,41 @@ const MainPage: React.FC<MainPageProps> = () => {
   console.log(cities);
 
   return (
-    <Container>
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        gap={2}
-        minHeight="100vh"
-      >
-        {openSearch && <SearchCity closeSearch={setOpenSearch} />}
-        {cities &&
-          cities.map((city) => <WeatherCard key={city} cityId={city} />)}
-        <Card>
-          <CardActionArea
-            sx={{ height: 332, width: 272, textAlign: 'center' }}
-            onClick={() => !openSearch && setOpenSearch(true)}
-          >
-            <AddRounded sx={{ fontSize: 100 }} />
-          </CardActionArea>
-        </Card>
+    <Container
+      sx={{
+        display: 'flex',
+        minHeight: '100vh',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Box display="flex" flexDirection="column">
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height={100}
+        >
+          {openSearch && <SearchCity closeSearch={setOpenSearch} />}
+        </Box>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          gap={3}
+          mb={20}
+        >
+          {cities &&
+            cities.map((city) => <WeatherCard key={city} cityId={city} />)}
+          <Card sx={{ height: 300, width: 240 }}>
+            <CardActionArea
+              sx={{ height: '100%', textAlign: 'center' }}
+              onClick={() => !openSearch && setOpenSearch(true)}
+            >
+              <AddRounded sx={{ fontSize: 100 }} />
+            </CardActionArea>
+          </Card>
+        </Box>
       </Box>
     </Container>
   );

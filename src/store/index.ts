@@ -6,13 +6,13 @@ import axios from 'axios';
 import * as api from '../services/api';
 
 const reducers = combineReducers({
-  cities: citiesReducer
+  cities: citiesReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cities']
+  whitelist: ['cities'],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -24,12 +24,12 @@ const store = configureStore({
       thunk: {
         extraArgument: {
           client: axios,
-          api
-        }
+          api,
+        },
       },
-      serializableCheck: false
+      serializableCheck: false,
     }),
-  devTools: process.env.NODE_ENV !== 'production'
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 const persistor = persistStore(store);

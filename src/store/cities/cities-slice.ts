@@ -3,12 +3,13 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 type City = {
   name: string;
+  fullName: string;
   lat: number;
   lng: number;
 };
 
 const citiesAdapter = createEntityAdapter<City>({
-  selectId: (city) => city.name
+  selectId: (city) => city.name,
 });
 
 const citiesSlice = createSlice({
@@ -16,8 +17,8 @@ const citiesSlice = createSlice({
   initialState: citiesAdapter.getInitialState(),
   reducers: {
     addCity: citiesAdapter.addOne,
-    removeCity: citiesAdapter.removeOne
-  }
+    removeCity: citiesAdapter.removeOne,
+  },
 });
 
 export const { addCity, removeCity } = citiesSlice.actions;
@@ -25,9 +26,9 @@ export const { addCity, removeCity } = citiesSlice.actions;
 export const citiesReducer = citiesSlice.reducer;
 
 export const selectAllCities = citiesAdapter.getSelectors<RootState>(
-  (state) => state.cities
+  (state) => state.cities,
 ).selectIds;
 
 export const selectCityById = citiesAdapter.getSelectors<RootState>(
-  (state) => state.cities
+  (state) => state.cities,
 ).selectById;

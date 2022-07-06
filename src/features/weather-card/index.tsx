@@ -7,13 +7,21 @@ import {
   IconButton,
   Menu,
   MenuItem,
-  Typography
+  Tooltip,
+  Typography,
 } from '@mui/material';
-import { LocationOnRounded, MoreHorizRounded } from '@mui/icons-material';
+import {
+  ClearRounded,
+  DeleteOutlineRounded,
+  LocationOnRounded,
+  MoreHorizRounded,
+  RefreshRounded,
+} from '@mui/icons-material';
 import { weatherByCity } from '../../services/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { removeCity, selectCityById } from '../../store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
+import { formatDateTime, formatDateToday } from '../../utils/format-date';
 
 interface WeatherProps {
   dt: number;
@@ -34,18 +42,8 @@ interface WeatherCardProps {
 export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
   const dispatch = useAppDispatch();
   const [weather, setWeather] = useState<WeatherProps | null>(null);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const fetchData = async (lat: number, lng: number) => {
     const response = await fetch(weatherByCity(lat, lng));
@@ -53,14 +51,11 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
     setWeather(current);
   };
 
+  const dateToday = weather && formatDateToday(weather?.dt);
+
   useEffect(() => {
     city && fetchData(city.lat, city.lng);
   }, [city]);
-
-  const handleDispatch = () => {
-    dispatch(removeCity(cityId));
-    handleClose();
-  };
 
   return (
     <Card sx={{ height: 300, width: 240, padding: 2 }}>
@@ -76,36 +71,49 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
       ) : (
         <>
           <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
+            display="grid"
+            gridTemplateColumns="repeat(3, auto)"
+            alignItems="start"
           >
-            <Typography>{weather.dt}</Typography>
-            <IconButton
-              aria-label="setting"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            >
-              <MoreHorizRounded />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button'
-              }}
-            >
-              <MenuItem onClick={handleDispatch}>Remove City</MenuItem>
-            </Menu>
-          </Box>
-          <Box display="flex" justifyContent="space-around" alignItems="center">
-            <Box>
-              <Typography>{weather.temp}</Typography>
+            <Box textAlign="start">
+              <Typography fontSize={20}>Today</Typography>
+              <Typography fontSize={10}>{dateToday?.day}</Typography>
+              <Typography fontSize={10}>{dateToday?.time}</Typography>
             </Box>
-            <Box display="flex" justifyContent="center">
+            <Box textAlign="center">
+              <Tooltip title="Update Weather">
+                <IconButton sx={{ padding: '4px' }}>
+                  <RefreshRounded />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box textAlign="end">
+              <Tooltip title="Delete City">
+                <IconButton
+                  onClick={() => dispatch(removeCity(cityId))}
+                  sx={{ padding: '4px' }}
+                >
+                  <ClearRounded />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Box>
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(2, 1fr)"
+            alignItems="center"
+            mt={2}
+            mb={2}
+          >
+            <Box display="flex" alignItems="start">
+              <Typography fontSize={60} fontWeight={700} lineHeight={1}>
+                {Math.round(weather.temp)}
+              </Typography>
+              <Typography fontSize={25} color="#FFD059">
+                °C
+              </Typography>
+            </Box>
+            <Box>
               <CardMedia
                 component="img"
                 width="50"
@@ -114,9 +122,9 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
               />
             </Box>
           </Box>
-          <Box display="flex" alignItems="center">
-            <LocationOnRounded />
-            <Typography>{city?.name}</Typography>
+          <Box display="flex" alignItems="center" gap={0.5}>
+            <LocationOnRounded fontSize="small" color="warning" />
+            <Typography fontSize={15}>{city?.fullName}</Typography>
           </Box>
           <Box>
             <Typography>Wind {weather.wind_speed} m/s</Typography>

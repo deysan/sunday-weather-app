@@ -52,12 +52,14 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
   const [options, setOptions] = useState<readonly PlaceType[]>([]);
   const loaded = useRef(false);
 
+  console.log(value);
+
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
       loadScript(
         `https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_GOOGLE_API_KEY}&libraries=places`,
         document.querySelector('head'),
-        'google-maps'
+        'google-maps',
       );
     }
 
@@ -69,35 +71,36 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
       throttle(
         (
           request: { input: string },
-          callback: (results?: readonly PlaceType[]) => void
+          callback: (results?: readonly PlaceType[]) => void,
         ) => {
           (autocompleteService.current as any).getPlacePredictions(
             request,
-            callback
+            callback,
           );
         },
-        200
+        200,
       ),
-    []
+    [],
   );
 
   const handleCity = useMemo(
     () => async (cityId: string) => {
       await axios
         .get(
-          `https://maps.googleapis.com/maps/api/geocode/json?place_id=${cityId}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
+          `https://maps.googleapis.com/maps/api/geocode/json?place_id=${cityId}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`,
         )
         .then((response) => response.data?.results?.[0]?.geometry?.location)
         .then((data: Geocode) =>
           dispatch(
             addCity({
               name: value?.structured_formatting.main_text || '',
-              ...data
-            })
-          )
+              fullName: value?.description || '',
+              ...data,
+            }),
+          ),
         );
     },
-    [dispatch, value]
+    [dispatch, value],
   );
 
   useEffect(() => {
@@ -174,8 +177,8 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
           option.structured_formatting.main_text,
           matches.map((match: any) => [
             match.offset,
-            match.offset + match.length
-          ])
+            match.offset + match.length,
+          ]),
         );
 
         return (
@@ -192,7 +195,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
                   <span
                     key={index}
                     style={{
-                      fontWeight: part.highlight ? 700 : 400
+                      fontWeight: part.highlight ? 700 : 400,
                     }}
                   >
                     {part.text}
