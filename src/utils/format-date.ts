@@ -1,16 +1,10 @@
 import dayjs from 'dayjs';
 
-export type DateToday = {
-  day: string;
-  time: string;
-};
+export const formatDateDay = (date: number): string =>
+  dayjs.unix(date).format('ddd, D MMM');
 
-export const formatDateToday = (date: number): DateToday => {
-  return {
-    day: dayjs.unix(date).format('ddd, D MMM'),
-    time: dayjs.unix(date).format('H:mm'),
-  };
-};
+export const formatDateFullDay = (date: number): string =>
+  dayjs.unix(date).format('dddd, D MMMM');
 
 export const formatDateTime = (date: number): string =>
-  dayjs.unix(date).format('h:mm a');
+  dayjs.unix(date).format('H:mm');

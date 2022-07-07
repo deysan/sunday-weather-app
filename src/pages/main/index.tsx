@@ -29,12 +29,19 @@ const MainPage: React.FC<MainPageProps> = () => {
     //   alignItems: 'center',
     // }}
     >
-      <Box display="flex" flexDirection="column" width="100%">
+      <Box
+        display="flex"
+        flexDirection="column"
+        width="100%"
+        height="100vh"
+        pb="100px"
+      >
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           height="100px"
+          flexShrink="0"
         >
           {openSearch ? (
             <SearchCity closeSearch={setOpenSearch} />

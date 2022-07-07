@@ -29,7 +29,7 @@ import { weatherByCity } from '../../services/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
 import { removeCity, selectCityById } from '../../store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
-import { formatDateTime, formatDateToday } from '../../utils/format-date';
+import { formatDateDay, formatDateTime } from '../../utils/format-date';
 import * as mock from './mock.json';
 import { Link, Navigate } from 'react-router-dom';
 
@@ -80,8 +80,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
     // setWeather(data);
   };
 
-  const dateToday = weather && formatDateToday(weather?.dt);
-
   useEffect(() => {
     // setWeather(mock);
     city && fetchData(city.lat, city.lng);
@@ -131,8 +129,12 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
               >
                 <Box textAlign="start">
                   <Typography fontSize={15}>Today</Typography>
-                  <Typography fontSize={10}>{dateToday?.day}</Typography>
-                  <Typography fontSize={10}>{dateToday?.time}</Typography>
+                  <Typography fontSize={10}>
+                    {formatDateDay(weather.dt)}
+                  </Typography>
+                  <Typography fontSize={10}>
+                    {formatDateTime(weather.dt)}
+                  </Typography>
                 </Box>
                 <Box textAlign="center">
                   <Tooltip title="Update Weather">
