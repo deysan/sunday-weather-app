@@ -1,8 +1,8 @@
 import React from 'react';
-import MainPage from '../pages/main';
+import { Routing } from '../pages';
 
 const App: React.FC = () => {
-  return <MainPage />;
+  return <Routing />;
 };
 
 export default App;

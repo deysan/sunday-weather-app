@@ -149,7 +149,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
 
   return (
     <Autocomplete
-      sx={{ width: '100%', maxWidth: 600 }}
+      sx={{ width: '100%', maxWidth: '600px' }}
       getOptionLabel={(option) =>
         typeof option === 'string' ? option : option.description
       }

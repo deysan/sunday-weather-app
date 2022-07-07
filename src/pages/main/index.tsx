@@ -1,5 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Card, CardActionArea, Container } from '@mui/material';
+import React, { useMemo, useState } from 'react';
+import {
+  Box,
+  Card,
+  CardActionArea,
+  Container,
+  Grid,
+  Typography,
+} from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
 import { SearchCity } from '../../features/search-city';
 import { WeatherCard } from '../../features/weather-card';
@@ -15,40 +22,51 @@ const MainPage: React.FC<MainPageProps> = () => {
 
   return (
     <Container
-      sx={{
-        display: 'flex',
-        minHeight: '100vh',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+    // sx={{
+    //   display: 'flex',
+    //   minHeight: '100vh',
+    //   justifyContent: 'center',
+    //   alignItems: 'center',
+    // }}
     >
-      <Box display="flex" flexDirection="column">
+      <Box display="flex" flexDirection="column" width="100%">
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
-          height={100}
+          height="100px"
         >
-          {openSearch && <SearchCity closeSearch={setOpenSearch} />}
+          {openSearch ? (
+            <SearchCity closeSearch={setOpenSearch} />
+          ) : (
+            <Typography variant="h3" component="h1">
+              SunDay Weather App
+            </Typography>
+          )}
         </Box>
-        <Box
+        {/* <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           gap={3}
           mb={20}
-        >
+        > */}
+        <Grid container spacing={3}>
           {cities &&
             cities.map((city) => <WeatherCard key={city} cityId={city} />)}
-          <Card sx={{ height: 300, width: 240 }}>
-            <CardActionArea
-              sx={{ height: '100%', textAlign: 'center' }}
-              onClick={() => !openSearch && setOpenSearch(true)}
-            >
-              <AddRounded sx={{ fontSize: 100 }} />
-            </CardActionArea>
-          </Card>
-        </Box>
+          <Grid item xs={6} sm={4} md={3}>
+            <Card sx={{ height: '300px' }}>
+              <CardActionArea
+                sx={{ height: '100%', textAlign: 'center' }}
+                onClick={() => setOpenSearch(true)}
+                disabled={openSearch}
+              >
+                <AddRounded sx={{ fontSize: 100 }} />
+              </CardActionArea>
+            </Card>
+          </Grid>
+        </Grid>
+        {/* </Box> */}
       </Box>
     </Container>
   );

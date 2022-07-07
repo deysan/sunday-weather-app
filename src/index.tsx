@@ -7,6 +7,7 @@ import { customTheme } from './styles';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -23,7 +24,9 @@ root.render(
               body: { backgroundColor: '#101039' },
             }}
           />
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </ThemeProvider>
       </PersistGate>
     </Provider>
