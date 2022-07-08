@@ -4,7 +4,6 @@ import {
   Card,
   CardActionArea,
   CardMedia,
-  CircularProgress,
   Grid,
   IconButton,
   Tooltip,
@@ -47,10 +46,9 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
   };
 
   useEffect(() => {
-    city && fetchWeather(city.lat, city.lng);
-
-    if (refetch) {
+    if (city) {
       setTimeout(() => {
+        fetchWeather(city.lat, city.lng);
         setRefetch(false);
       }, 500);
     }

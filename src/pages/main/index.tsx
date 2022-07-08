@@ -5,7 +5,9 @@ import {
   CardActionArea,
   Container,
   Grid,
+  Tooltip,
   Typography,
+  Zoom,
 } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
 import { Header, SearchCity, WeatherList } from 'components';
@@ -37,13 +39,15 @@ const MainPage: React.FC<MainPageProps> = () => {
         <WeatherList>
           <Grid item xs={6} sm={4} md={3}>
             <Card sx={{ height: '300px' }}>
-              <CardActionArea
-                sx={{ height: '100%', textAlign: 'center' }}
-                onClick={() => setOpenSearch(true)}
-                disabled={openSearch}
-              >
-                <AddRounded sx={{ fontSize: 100 }} />
-              </CardActionArea>
+              <Tooltip title="Add City" TransitionComponent={Zoom} followCursor>
+                <CardActionArea
+                  sx={{ height: '100%', textAlign: 'center' }}
+                  onClick={() => setOpenSearch(true)}
+                  disabled={openSearch}
+                >
+                  <AddRounded sx={{ fontSize: 100 }} />
+                </CardActionArea>
+              </Tooltip>
             </Card>
           </Grid>
         </WeatherList>

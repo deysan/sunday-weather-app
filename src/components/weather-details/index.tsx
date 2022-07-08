@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Box,
   Card,
@@ -26,21 +26,25 @@ import { formatDateTime, formatDateFullDay } from 'utils';
 import { Loader, WeatherChart } from 'components';
 import axios from 'axios';
 import { weatherDetailsByCity } from 'services/api';
-import { useAppSelector } from 'hooks';
+import { useAppSelector, useWindowSize } from 'hooks';
 import { Weather } from 'types';
 import { selectCityById } from 'store/cities';
 import { EntityId } from '@reduxjs/toolkit';
+
 interface WeatherDetailsProps {
   cityId: EntityId;
 }
 
 export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
   const navigate = useNavigate();
+  const { width } = useWindowSize();
   const [current, setCurrent] = useState<Weather | null>(null);
   const [hourly, setHourly] = useState<Weather[] | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
+
+  const isTablet = useMemo(() => width < 900, [width]);
 
   const fetchWeather = async (lat: number, lng: number) => {
     await axios
@@ -53,10 +57,9 @@ export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
   };
 
   useEffect(() => {
-    city && fetchWeather(city.lat, city.lng);
-
-    if (refetch) {
+    if (city) {
       setTimeout(() => {
+        fetchWeather(city.lat, city.lng);
         setRefetch(false);
       }, 500);
     }
@@ -111,11 +114,21 @@ export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
             item
             xs={12}
             md={4}
-            sx={{
-              borderRightWidth: '1px',
-              borderRightStyle: 'solid',
-              borderRightColor: 'text.disabled',
-            }}
+            sx={
+              !isTablet
+                ? {
+                    borderRightWidth: '1px',
+                    borderRightStyle: 'solid',
+                    borderRightColor: 'text.disabled',
+                  }
+                : {
+                    marginBottom: '1rem',
+                    paddingBottom: '1rem',
+                    borderBottomWidth: '1px',
+                    borderBottomStyle: 'solid',
+                    borderBottomColor: 'text.disabled',
+                  }
+            }
           >
             <Typography my={2} fontSize={25} textAlign="center">
               How’s the temperature today
@@ -388,28 +401,34 @@ export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
                     </Box>
                   </Card>
                 </Grid>
-                <Grid item xs={6} md={4}>
-                  <Card
-                    sx={{
-                      padding: 2,
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderColor: 'text.disabled',
-                    }}
-                  >
-                    <Typography color="text.disabled">UV Index</Typography>
-                    <Box
-                      display="flex"
-                      justifyContent="space-between"
-                      alignItems="end"
+                {!isTablet && (
+                  <Grid item xs={6} md={4}>
+                    <Card
+                      sx={{
+                        padding: 2,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        borderColor: 'text.disabled',
+                      }}
                     >
-                      <Typography fontSize={30} fontWeight={700} lineHeight={1}>
-                        {current.uvi}
-                      </Typography>
-                      <SolarPowerRounded fontSize="large" color="warning" />
-                    </Box>
-                  </Card>
-                </Grid>
+                      <Typography color="text.disabled">UV Index</Typography>
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="end"
+                      >
+                        <Typography
+                          fontSize={30}
+                          fontWeight={700}
+                          lineHeight={1}
+                        >
+                          {current.uvi}
+                        </Typography>
+                        <SolarPowerRounded fontSize="large" color="warning" />
+                      </Box>
+                    </Card>
+                  </Grid>
+                )}
               </Grid>
             </Box>
           </Grid>
