@@ -8,8 +8,8 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
+import { IWeather } from '../../types';
 import { formatDateTime } from '../../utils/format-date';
-import { WeatherProps } from '../weather-card';
 
 const CustomizedLabel: React.FC<any> = (props: any) => {
   const { x, y, value } = props;
@@ -49,7 +49,7 @@ const CustomizedAxisTick: React.FC<any> = (props: any) => {
 };
 
 interface ChartProps {
-  data: WeatherProps[];
+  data: IWeather[];
 }
 
 export const Chart: React.FC<ChartProps> = ({ data }) => {

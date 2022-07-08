@@ -1,29 +1,22 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Card,
   CardActionArea,
-  CardActions,
   CardMedia,
   CircularProgress,
   Grid,
   IconButton,
-  Menu,
-  MenuItem,
   Tooltip,
   Typography,
 } from '@mui/material';
 import {
-  AirRounded,
   ClearRounded,
   CycloneRounded,
-  DeleteOutlineRounded,
   GrainRounded,
   LocationOnRounded,
-  MoreHorizRounded,
   RefreshRounded,
   WavesRounded,
-  WindPowerRounded,
 } from '@mui/icons-material';
 import { weatherByCity } from '../../services/api';
 import { useAppDispatch, useAppSelector } from '../../hooks/hook';
@@ -31,7 +24,8 @@ import { removeCity, selectCityById } from '../../store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
 import { formatDateDay, formatDateTime } from '../../utils/format-date';
 import * as mock from './mock.json';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { IWeather } from '../../types';
 
 // interface WeatherProps {
 //   dt: number;
@@ -49,23 +43,6 @@ import { Link, Navigate } from 'react-router-dom';
 //     description: string;
 //   }[];
 // }
-export interface WeatherProps {
-  dt: number;
-  temp: number;
-  clouds: number;
-  feels_like: number;
-  visibility: number;
-  humidity: number;
-  pressure: number;
-  wind_speed: number;
-  sunrise: number;
-  sunset: number;
-  uvi: number;
-  weather: {
-    icon: string;
-    description: string;
-  }[];
-}
 
 interface WeatherCardProps {
   cityId: EntityId;
@@ -73,7 +50,7 @@ interface WeatherCardProps {
 
 export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
   const dispatch = useAppDispatch();
-  const [weather, setWeather] = useState<WeatherProps | null>(null);
+  const [weather, setWeather] = useState<IWeather | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));

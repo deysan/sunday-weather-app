@@ -4,7 +4,6 @@ import {
   Card,
   CardMedia,
   Container,
-  Divider,
   Grid,
   IconButton,
   Tooltip,
@@ -30,7 +29,6 @@ import {
 import * as mock from './mock.json';
 import { formatDateTime, formatDateFullDay } from '../../utils/format-date';
 import { Chart } from '../../features/chart';
-import { WeatherProps } from '../../features/weather-card';
 
 interface DetailsPageProps {}
 
