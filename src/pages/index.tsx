@@ -7,7 +7,7 @@ export const Routing: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/:cityId" element={<DetailsPage />} />
+      <Route path="/city/:cityId" element={<DetailsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

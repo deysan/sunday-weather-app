@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Card,
@@ -8,27 +8,15 @@ import {
   Typography,
 } from '@mui/material';
 import { AddRounded } from '@mui/icons-material';
-import { SearchCity } from '../../features/search-city';
-import { WeatherCard } from '../../features/weather-card';
-import { useAppSelector } from '../../hooks/hook';
-import { selectAllCities } from '../../store/cities/cities-slice';
+import { Header, SearchCity, WeatherList } from 'components';
 
 interface MainPageProps {}
 
 const MainPage: React.FC<MainPageProps> = () => {
   const [openSearch, setOpenSearch] = useState(false);
 
-  const cities = useAppSelector(selectAllCities);
-
   return (
-    <Container
-    // sx={{
-    //   display: 'flex',
-    //   minHeight: '100vh',
-    //   justifyContent: 'center',
-    //   alignItems: 'center',
-    // }}
-    >
+    <Container>
       <Box
         display="flex"
         flexDirection="column"
@@ -36,13 +24,7 @@ const MainPage: React.FC<MainPageProps> = () => {
         height="100vh"
         pb="100px"
       >
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100px"
-          flexShrink="0"
-        >
+        <Header>
           {openSearch ? (
             <SearchCity closeSearch={setOpenSearch} />
           ) : (
@@ -50,17 +32,9 @@ const MainPage: React.FC<MainPageProps> = () => {
               SunDay Weather App
             </Typography>
           )}
-        </Box>
-        {/* <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          gap={3}
-          mb={20}
-        > */}
-        <Grid container spacing={3}>
-          {cities &&
-            cities.map((city) => <WeatherCard key={city} cityId={city} />)}
+        </Header>
+
+        <WeatherList>
           <Grid item xs={6} sm={4} md={3}>
             <Card sx={{ height: '300px' }}>
               <CardActionArea
@@ -72,8 +46,7 @@ const MainPage: React.FC<MainPageProps> = () => {
               </CardActionArea>
             </Card>
           </Grid>
-        </Grid>
-        {/* </Box> */}
+        </WeatherList>
       </Box>
     </Container>
   );

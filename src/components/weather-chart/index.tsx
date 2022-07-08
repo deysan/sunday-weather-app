@@ -8,54 +8,54 @@ import {
   AreaChart,
   Area,
 } from 'recharts';
-import { IWeather } from '../../types';
-import { formatDateTime } from '../../utils/format-date';
+import { Weather } from 'types';
+import { formatDateTime } from 'utils';
 
-const CustomizedLabel: React.FC<any> = (props: any) => {
-  const { x, y, value } = props;
-
-  return (
-    <text
-      x={x}
-      y={y}
-      dy={-4}
-      fill="#fff"
-      fontSize={20}
-      fontWeight={700}
-      textAnchor="middle"
-    >
-      {value}
-    </text>
-  );
-};
-
-const CustomizedAxisTick: React.FC<any> = (props: any) => {
-  const { x, y, payload } = props;
-
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <text
-        x={0}
-        y={0}
-        dy={16}
-        textAnchor="end"
-        fill="#666"
-        transform="rotate(-35)"
-      >
-        {payload.value}
-      </text>
-    </g>
-  );
-};
-
-interface ChartProps {
-  data: IWeather[];
+interface WeatherChartProps {
+  data: Weather[];
 }
 
-export const Chart: React.FC<ChartProps> = ({ data }) => {
+export const WeatherChart: React.FC<WeatherChartProps> = ({ data }) => {
   const dataChart = data.slice(0, 9).map((item) => {
     return { dt: formatDateTime(item.dt), temp: Math.round(item.temp) };
   });
+
+  const CustomizedLabel = (props: any) => {
+    const { x, y, value } = props;
+
+    return (
+      <text
+        x={x}
+        y={y}
+        dy={-4}
+        fill="#fff"
+        fontSize={20}
+        fontWeight={700}
+        textAnchor="middle"
+      >
+        {value}
+      </text>
+    );
+  };
+
+  const CustomizedAxisTick = (props: any) => {
+    const { x, y, payload } = props;
+
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={16}
+          textAnchor="end"
+          fill="#666"
+          transform="rotate(-35)"
+        >
+          {payload.value}
+        </text>
+      </g>
+    );
+  };
 
   return (
     <ResponsiveContainer>

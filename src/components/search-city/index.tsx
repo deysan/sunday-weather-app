@@ -4,8 +4,9 @@ import { LocationOnRounded } from '@mui/icons-material';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 import axios from 'axios';
-import { addCity } from '../../store/cities/cities-slice';
-import { useAppDispatch } from '../../hooks/hook';
+import { addCity } from 'store/cities';
+import { useAppDispatch } from 'hooks';
+import { Geocode } from 'types';
 
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {
@@ -36,14 +37,9 @@ interface PlaceType {
   structured_formatting: StructuredFormatting;
 }
 
-type Geocode = {
-  lat: number;
-  lng: number;
-};
-
-type SearchCityProps = {
+interface SearchCityProps {
   closeSearch: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
 export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
   const dispatch = useAppDispatch();
@@ -51,8 +47,6 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState<readonly PlaceType[]>([]);
   const loaded = useRef(false);
-
-  console.log(value);
 
   if (typeof window !== 'undefined' && !loaded.current) {
     if (!document.querySelector('#google-maps')) {
@@ -83,7 +77,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
     [],
   );
 
-  const handleCity = useMemo(
+  const getCity = useMemo(
     () => async (cityId: string) => {
       await axios
         .get(
@@ -135,7 +129,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
         setOptions(newOptions);
 
         if (value) {
-          handleCity(value.place_id);
+          getCity(value.place_id);
           setValue(null);
           closeSearch(false);
         }
@@ -145,7 +139,7 @@ export const SearchCity: React.FC<SearchCityProps> = ({ closeSearch }) => {
     return () => {
       active = false;
     };
-  }, [value, inputValue, fetch, closeSearch, handleCity]);
+  }, [value, inputValue, fetch, closeSearch, getCity]);
 
   return (
     <Autocomplete

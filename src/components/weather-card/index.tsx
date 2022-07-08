@@ -18,31 +18,14 @@ import {
   RefreshRounded,
   WavesRounded,
 } from '@mui/icons-material';
-import { weatherByCity } from '../../services/api';
-import { useAppDispatch, useAppSelector } from '../../hooks/hook';
-import { removeCity, selectCityById } from '../../store/cities/cities-slice';
+import { weatherByCity } from 'services/api';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { removeCity, selectCityById } from 'store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
-import { formatDateDay, formatDateTime } from '../../utils/format-date';
-import * as mock from './mock.json';
+import { formatDateDay, formatDateTime } from 'utils';
 import { Link } from 'react-router-dom';
-import { IWeather } from '../../types';
-
-// interface WeatherProps {
-//   dt: number;
-//   name: string;
-//   main: {
-//     temp: number;
-//     pressure: number;
-//     humidity: number;
-//   };
-//   wind: {
-//     speed: number;
-//   };
-//   weather: {
-//     icon: string;
-//     description: string;
-//   }[];
-// }
+import { Weather } from 'types';
+import axios from 'axios';
 
 interface WeatherCardProps {
   cityId: EntityId;
@@ -50,22 +33,20 @@ interface WeatherCardProps {
 
 export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
   const dispatch = useAppDispatch();
-  const [weather, setWeather] = useState<IWeather | null>(null);
+  const [weather, setWeather] = useState<Weather | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
 
-  const fetchData = async (lat: number, lng: number) => {
-    const response = await fetch(weatherByCity(lat, lng));
-    const { current } = await response.json();
-    setWeather(current);
-    // const data = await response.json();
-    // setWeather(data);
+  const getWeather = async (lat: number, lng: number) => {
+    await axios
+      .get(weatherByCity(lat, lng))
+      .then((response) => response.data?.current)
+      .then((data) => setWeather(data));
   };
 
   useEffect(() => {
-    // setWeather(mock);
-    city && fetchData(city.lat, city.lng);
+    city && getWeather(city.lat, city.lng);
 
     if (refetch) {
       setTimeout(() => {
@@ -83,7 +64,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
       >
         <CardActionArea
           component={Link}
-          to={`/${cityId}`}
+          to={`/city/${cityId}`}
           disabled={refetch ? true : false}
           sx={{
             display: 'flex',
@@ -159,16 +140,18 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                 <Box display="flex" justifyContent="center" alignItems="start">
                   <Typography fontSize={60} fontWeight={700} lineHeight={1}>
                     {Math.round(weather.temp)}
-                    {/* {Math.round(weather.main.temp)} */}
                   </Typography>
                   <Typography fontSize={25} color="#FFD059">
                     °C
                   </Typography>
                 </Box>
-                <Box>
+                <Box display="flex" justifyContent="center" alignItems="center">
                   <CardMedia
                     component="img"
-                    width="50"
+                    sx={{
+                      maxHeight: '100px',
+                      maxWidth: '100px',
+                    }}
                     image={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
                     alt={weather.weather[0].description}
                   />
@@ -183,7 +166,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                   whiteSpace="nowrap"
                 >
                   {city?.fullName || city?.name}
-                  {/* {city?.fullName || weather.name} */}
                 </Typography>
               </Box>
               <Box
@@ -196,7 +178,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                   <Box>
                     <Typography fontSize={10}>
                       {weather.wind_speed} m/s
-                      {/* {weather.wind.speed} m/s */}
                     </Typography>
                     <Typography fontSize={10} color="text.disabled">
                       Wind
@@ -206,9 +187,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                 <Box display="grid" gridTemplateColumns="repeat(2, auto)">
                   <GrainRounded fontSize="small" />
                   <Box>
-                    <Typography fontSize={10}>
-                      {weather.humidity} %{/* {weather.main.humidity} % */}
-                    </Typography>
+                    <Typography fontSize={10}>{weather.humidity} %</Typography>
                     <Typography fontSize={10} color="text.disabled">
                       Humidity
                     </Typography>
@@ -219,7 +198,6 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                   <Box>
                     <Typography fontSize={10}>
                       {weather.pressure} hPa
-                      {/* {weather.main.pressure} hPa */}
                     </Typography>
                     <Typography fontSize={10} color="text.disabled">
                       Pressure
