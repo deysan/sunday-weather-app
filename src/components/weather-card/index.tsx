@@ -26,6 +26,7 @@ import { formatDateDay, formatDateTime } from 'utils';
 import { Link } from 'react-router-dom';
 import { Weather } from 'types';
 import axios from 'axios';
+import { Loader } from 'components/loader';
 
 interface WeatherCardProps {
   cityId: EntityId;
@@ -38,7 +39,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
 
-  const getWeather = async (lat: number, lng: number) => {
+  const fetchWeather = async (lat: number, lng: number) => {
     await axios
       .get(weatherByCity(lat, lng))
       .then((response) => response.data?.current)
@@ -46,7 +47,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
   };
 
   useEffect(() => {
-    city && getWeather(city.lat, city.lng);
+    city && fetchWeather(city.lat, city.lng);
 
     if (refetch) {
       setTimeout(() => {
@@ -75,14 +76,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
           }}
         >
           {!weather || refetch ? (
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              height="100%"
-            >
-              <CircularProgress />
-            </Box>
+            <Loader />
           ) : (
             <>
               <Box
@@ -110,6 +104,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                         event.preventDefault();
                         setRefetch(true);
                       }}
+                      disabled={refetch ? true : false}
                     >
                       <RefreshRounded />
                     </IconButton>

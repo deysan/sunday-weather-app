@@ -36,7 +36,7 @@ const DetailsPage: React.FC = () => {
           </Typography>
         </Header>
 
-        <WeatherDetails />
+        <WeatherDetails cityId={cityId} />
       </Box>
     </Container>
   );

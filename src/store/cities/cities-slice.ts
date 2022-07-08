@@ -1,12 +1,6 @@
 import { RootState } from './../index';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-
-type City = {
-  name: string;
-  fullName: string;
-  lat: number;
-  lng: number;
-};
+import { City } from 'types';
 
 const citiesAdapter = createEntityAdapter<City>({
   selectId: (city) => city.name,
