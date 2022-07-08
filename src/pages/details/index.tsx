@@ -29,6 +29,8 @@ import {
 } from '@mui/icons-material';
 import * as mock from './mock.json';
 import { formatDateTime, formatDateFullDay } from '../../utils/format-date';
+import { Chart } from '../../features/chart';
+import { WeatherProps } from '../../features/weather-card';
 
 interface DetailsPageProps {}
 
@@ -36,6 +38,8 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
   const { cityId = '' } = useParams();
   const navigate = useNavigate();
   const { current, hourly } = mock;
+
+  console.log(hourly);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
 
@@ -117,6 +121,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                 borderRightColor: 'text.disabled',
               }}
             >
+              <Typography fontSize={20}>How’s the temperature today</Typography>
               <Box>
                 <Typography>{formatDateTime(current.dt)}</Typography>
                 <Typography>{formatDateFullDay(current.dt)}</Typography>
@@ -144,9 +149,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
 
             <Grid item xs={12} md={8} padding={2}>
               <Box display="grid" gridTemplateRows="repeat(2, 1fr)">
-                <Typography fontSize={20}>
-                  How’s the temperature today
-                </Typography>
+                <Chart data={hourly} />
                 <Grid container spacing={2}>
                   <Grid item xs={6} md={4}>
                     <Card
@@ -178,7 +181,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             %
                           </Typography>
                         </Typography>
-                        <FilterDramaRounded fontSize="large" />
+                        <FilterDramaRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -212,7 +215,10 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             °C
                           </Typography>
                         </Typography>
-                        <SentimentSatisfiedRounded fontSize="large" />
+                        <SentimentSatisfiedRounded
+                          fontSize="large"
+                          color="warning"
+                        />
                       </Box>
                     </Card>
                   </Grid>
@@ -246,7 +252,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             km
                           </Typography>
                         </Typography>
-                        <VisibilityRounded fontSize="large" />
+                        <VisibilityRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -281,7 +287,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             m/s
                           </Typography>
                         </Typography>
-                        <CycloneRounded fontSize="large" />
+                        <CycloneRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -315,7 +321,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             %
                           </Typography>
                         </Typography>
-                        <GrainRounded fontSize="large" />
+                        <GrainRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -349,7 +355,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                             hPa
                           </Typography>
                         </Typography>
-                        <WavesRounded fontSize="large" />
+                        <WavesRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -375,7 +381,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                         >
                           {formatDateTime(current.sunrise)}
                         </Typography>
-                        <WbSunnyRounded fontSize="large" />
+                        <WbSunnyRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -401,7 +407,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                         >
                           {formatDateTime(current.sunset)}
                         </Typography>
-                        <WbTwilightRounded fontSize="large" />
+                        <WbTwilightRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
@@ -427,7 +433,7 @@ const DetailsPage: React.FC<DetailsPageProps> = () => {
                         >
                           {current.uvi}
                         </Typography>
-                        <SolarPowerRounded fontSize="large" />
+                        <SolarPowerRounded fontSize="large" color="warning" />
                       </Box>
                     </Card>
                   </Grid>
