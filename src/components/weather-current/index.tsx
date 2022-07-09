@@ -24,7 +24,7 @@ export const WeatherCurrent: React.FC<WeatherCurrentProps> = ({ current }) => {
             maxHeight: '200px',
             maxWidth: '250px',
           }}
-          image={`http://openweathermap.org/img/w/${current.weather[0].icon}.png`}
+          image={`http://openweathermap.org/img/wn/${current.weather[0].icon}@4x.png`}
           alt={current.weather[0].description}
         />
       </Box>

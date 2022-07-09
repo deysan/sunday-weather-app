@@ -145,7 +145,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
                       maxHeight: '100px',
                       maxWidth: '100px',
                     }}
-                    image={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`}
+                    image={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
                     alt={weather.weather[0].description}
                   />
                 </Box>
