@@ -3,5 +3,7 @@ export * from './loader';
 export * from './search-city';
 export * from './weather-card';
 export * from './weather-chart';
+export * from './weather-current';
 export * from './weather-details';
+export * from './weather-details-card';
 export * from './weather-list';

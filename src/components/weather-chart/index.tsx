@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  LabelList,
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-} from 'recharts';
+import ReactApexChart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts';
 import { Weather } from 'types';
 import { formatDateTime } from 'utils';
 
@@ -16,77 +9,121 @@ interface WeatherChartProps {
 }
 
 export const WeatherChart: React.FC<WeatherChartProps> = ({ data }) => {
-  const dataChart = data.slice(0, 9).map((item) => {
-    return { dt: formatDateTime(item.dt), temp: Math.round(item.temp) };
-  });
+  const series = [
+    {
+      data: data.slice(0, 9).map((item) => Math.round(item.temp)),
+    },
+  ];
 
-  const CustomizedLabel = (props: any) => {
-    const { x, y, value } = props;
+  const options: ApexOptions = {
+    chart: {
+      toolbar: {
+        show: false,
+      },
+    },
 
-    return (
-      <text
-        x={x}
-        y={y}
-        dy={-4}
-        fill="#fff"
-        fontSize={20}
-        fontWeight={700}
-        textAnchor="middle"
-      >
-        {value}
-      </text>
-    );
-  };
+    dataLabels: {
+      enabled: true,
+      style: {
+        fontSize: '16px',
+        fontFamily: 'Balsamiq Sans',
+      },
+      background: {
+        padding: 8,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: '#fff',
+        opacity: 0.9,
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45,
+        },
+      },
+    },
 
-  const CustomizedAxisTick = (props: any) => {
-    const { x, y, payload } = props;
+    stroke: {
+      curve: 'smooth',
+      colors: ['#FFD059'],
+    },
 
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <text
-          x={0}
-          y={0}
-          dy={16}
-          textAnchor="end"
-          fill="#666"
-          transform="rotate(-35)"
-        >
-          {payload.value}
-        </text>
-      </g>
-    );
+    tooltip: {
+      enabled: false,
+    },
+
+    grid: {
+      borderColor: '#90A4AE',
+      strokeDashArray: 1,
+      position: 'back',
+      xaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+      padding: {
+        left: 20,
+      },
+    },
+
+    xaxis: {
+      categories: data.slice(0, 9).map((item) => formatDateTime(item.dt)),
+      labels: {
+        style: {
+          colors: [
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+          ],
+          fontSize: '14px',
+          fontFamily: 'Balsamiq Sans',
+        },
+      },
+    },
+
+    yaxis: {
+      show: false,
+      logBase: 20,
+      tickAmount: 3,
+      labels: {
+        style: {
+          colors: [
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+            '#fff',
+          ],
+          fontSize: '14px',
+          fontFamily: 'Balsamiq Sans',
+        },
+      },
+    },
   };
 
   return (
-    <ResponsiveContainer>
-      <AreaChart
-        data={dataChart}
-        margin={{
-          top: 10,
-          right: 30,
-          left: 0,
-          bottom: 0,
-        }}
-      >
-        <defs>
-          <linearGradient id="colorTemp" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#FFD059" stopOpacity={0.5} />
-            <stop offset="95%" stopColor="#FFD059" stopOpacity={0} />
-          </linearGradient>
-        </defs>
-        <CartesianGrid strokeDasharray="1 10" />
-        <XAxis dataKey="dt" height={60} tick={<CustomizedAxisTick />} />
-        <YAxis />
-        <Area
-          type="monotone"
-          dataKey="temp"
-          stroke="#FFD059"
-          fillOpacity={1}
-          fill="url(#colorTemp)"
-        >
-          <LabelList content={<CustomizedLabel />} />
-        </Area>
-      </AreaChart>
-    </ResponsiveContainer>
+    <ReactApexChart
+      options={options}
+      series={series}
+      type="line"
+      height="300"
+    />
   );
 };
