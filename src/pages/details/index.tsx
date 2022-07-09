@@ -1,9 +1,8 @@
 import React from 'react';
-import { Box, Container, Typography } from '@mui/material';
 import { Navigate, useParams } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 import { LocationOnRounded } from '@mui/icons-material';
-import { Header } from 'components';
-import { WeatherDetails } from 'components';
+import { Header, WeatherDetails } from 'components';
 import { selectCityById } from 'store/cities';
 import { useAppSelector } from 'hooks';
 

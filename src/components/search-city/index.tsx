@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Autocomplete, Box, Grid, TextField, Typography } from '@mui/material';
 import { LocationOnRounded } from '@mui/icons-material';
-import parse from 'autosuggest-highlight/parse';
-import throttle from 'lodash/throttle';
-import axios from 'axios';
 import { addCity } from 'store/cities';
 import { useAppDispatch } from 'hooks';
 import { Geocode } from 'types';
+import throttle from 'lodash/throttle';
+import parse from 'autosuggest-highlight/parse';
+import axios from 'axios';
 
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {

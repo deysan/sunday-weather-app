@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './app';
+import { BrowserRouter } from 'react-router-dom';
 import { CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
-import { customTheme } from './styles';
-import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from './store';
-import { BrowserRouter } from 'react-router-dom';
+import { customTheme } from './styles';
+import { Provider } from 'react-redux';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,

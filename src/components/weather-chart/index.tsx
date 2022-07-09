@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { Weather } from 'types';
 import { formatDateTime } from 'utils';
+import { Weather } from 'types';
 
 interface WeatherChartProps {
   data: Weather[];

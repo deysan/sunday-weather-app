@@ -1,5 +1,5 @@
-import { RootState } from './../index';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import { RootState } from 'store';
 import { City } from 'types';
 
 const citiesAdapter = createEntityAdapter<City>({

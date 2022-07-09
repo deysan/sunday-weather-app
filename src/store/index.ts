@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
 import { citiesReducer } from './cities';
 import axios from 'axios';
+import storage from 'redux-persist/lib/storage';
 import * as api from 'services/api';
 
 const reducers = combineReducers({

@@ -1,5 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Box, Card, Grid, IconButton, Tooltip } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Card,
+  Grid,
+  IconButton,
+  Tooltip,
+  useMediaQuery,
+} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {
   ArrowBackRounded,
@@ -14,19 +21,19 @@ import {
   WbSunnyRounded,
   WbTwilightRounded,
 } from '@mui/icons-material';
-import { formatDateTime } from 'utils';
 import {
   Loader,
   WeatherChart,
   WeatherCurrent,
   WeatherDetailsCard,
 } from 'components';
-import axios from 'axios';
-import { weatherDetails } from 'services/api';
-import { useAppSelector, useWindowSize } from 'hooks';
-import { Weather } from 'types';
-import { selectCityById } from 'store/cities';
 import { EntityId } from '@reduxjs/toolkit';
+import { useAppSelector } from 'hooks';
+import { weatherDetails } from 'services/api';
+import { formatDateTime } from 'utils';
+import { selectCityById } from 'store/cities';
+import { Weather } from 'types';
+import axios from 'axios';
 
 interface WeatherDetailsProps {
   cityId: EntityId;
@@ -34,14 +41,13 @@ interface WeatherDetailsProps {
 
 export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
   const navigate = useNavigate();
-  const { width } = useWindowSize();
   const [current, setCurrent] = useState<Weather | null>(null);
   const [hourly, setHourly] = useState<Weather[] | null>(null);
   const [refetch, setRefetch] = useState<boolean>(false);
 
   const city = useAppSelector((state) => selectCityById(state, cityId));
 
-  const isTablet = useMemo(() => width < 900, [width]);
+  const isTablet = useMediaQuery('(max-width:899px)');
 
   const fetchWeather = async (lat: number, lng: number) => {
     await axios

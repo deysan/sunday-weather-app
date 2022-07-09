@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -17,15 +18,14 @@ import {
   RefreshRounded,
   WavesRounded,
 } from '@mui/icons-material';
-import { weatherCurrent } from 'services/api';
-import { useAppDispatch, useAppSelector } from 'hooks';
-import { removeCity, selectCityById } from 'store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
+import { weatherCurrent } from 'services/api';
+import { removeCity, selectCityById } from 'store/cities';
+import { useAppDispatch, useAppSelector } from 'hooks';
 import { formatDateDay, formatDateTime } from 'utils';
-import { Link } from 'react-router-dom';
+import { Loader } from 'components';
 import { Weather } from 'types';
 import axios from 'axios';
-import { Loader } from 'components/loader';
 
 interface WeatherCardProps {
   cityId: EntityId;
