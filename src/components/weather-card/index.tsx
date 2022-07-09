@@ -17,7 +17,7 @@ import {
   RefreshRounded,
   WavesRounded,
 } from '@mui/icons-material';
-import { weatherByCity } from 'services/api';
+import { weatherCurrent } from 'services/api';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { removeCity, selectCityById } from 'store/cities/cities-slice';
 import { EntityId } from '@reduxjs/toolkit';
@@ -40,7 +40,7 @@ export const WeatherCard: React.FC<WeatherCardProps> = ({ cityId }) => {
 
   const fetchWeather = async (lat: number, lng: number) => {
     await axios
-      .get(weatherByCity(lat, lng))
+      .get(weatherCurrent(lat, lng))
       .then((response) => response.data?.current)
       .then((data) => setWeather(data));
   };

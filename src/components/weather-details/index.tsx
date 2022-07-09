@@ -22,7 +22,7 @@ import {
   WeatherDetailsCard,
 } from 'components';
 import axios from 'axios';
-import { weatherDetailsByCity } from 'services/api';
+import { weatherDetails } from 'services/api';
 import { useAppSelector, useWindowSize } from 'hooks';
 import { Weather } from 'types';
 import { selectCityById } from 'store/cities';
@@ -45,7 +45,7 @@ export const WeatherDetails: React.FC<WeatherDetailsProps> = ({ cityId }) => {
 
   const fetchWeather = async (lat: number, lng: number) => {
     await axios
-      .get(weatherDetailsByCity(lat, lng))
+      .get(weatherDetails(lat, lng))
       .then((response) => response.data)
       .then((data) => {
         setCurrent(data.current);

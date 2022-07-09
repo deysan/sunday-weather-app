@@ -30,7 +30,13 @@ const MainPage: React.FC<MainPageProps> = () => {
           {openSearch ? (
             <SearchCity closeSearch={setOpenSearch} />
           ) : (
-            <Typography variant="h3" component="h1">
+            <Typography
+              variant="h3"
+              component="h1"
+              textOverflow="ellipsis"
+              overflow="hidden"
+              whiteSpace="nowrap"
+            >
               SunDay Weather App
             </Typography>
           )}

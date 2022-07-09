@@ -20,6 +20,9 @@ export const WeatherChart: React.FC<WeatherChartProps> = ({ data }) => {
       toolbar: {
         show: false,
       },
+      zoom: {
+        enabled: false,
+      },
     },
 
     dataLabels: {
