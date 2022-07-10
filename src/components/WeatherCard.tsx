@@ -5,7 +5,7 @@ import { formatDateDay, formatDateTime } from 'utils';
 import { Link } from 'react-router-dom';
 import { Loader } from 'components';
 import { removeCity, selectCityById } from 'store/cities';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { Weather } from 'types';
 import { weatherCurrent } from 'services/api';
 import {

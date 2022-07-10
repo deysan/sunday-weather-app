@@ -4,7 +4,7 @@ import { LocationOnRounded } from '@mui/icons-material';
 import { Navigate, useParams } from 'react-router-dom';
 import { selectCityById } from 'store/cities';
 import { Typography } from '@mui/material';
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from 'hooks/redux';
 
 const DetailsPage: React.FC = () => {
   const { cityId = '' } = useParams();

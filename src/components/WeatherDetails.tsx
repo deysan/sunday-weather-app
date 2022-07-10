@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { EntityId } from '@reduxjs/toolkit';
 import { formatDateTime } from 'utils';
 import { selectCityById } from 'store/cities';
-import { useAppSelector } from 'hooks';
+import { useAppSelector } from 'hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { Weather } from 'types';
 import { weatherDetails } from 'services/api';

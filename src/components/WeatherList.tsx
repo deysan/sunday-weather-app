@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { addCity, selectAllCities } from 'store/cities';
 import { Grid } from '@mui/material';
-import { useAppDispatch, useAppSelector } from 'hooks';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { WeatherCard } from 'components';
 
 interface WeatherListProps {

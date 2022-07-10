@@ -6,7 +6,7 @@ import { addCity } from 'store/cities';
 import { Autocomplete, Box, Grid, TextField, Typography } from '@mui/material';
 import { Geocode } from 'types';
 import { LocationOnRounded } from '@mui/icons-material';
-import { useAppDispatch } from 'hooks';
+import { useAppDispatch } from 'hooks/redux';
 
 function loadScript(src: string, position: HTMLElement | null, id: string) {
   if (!position) {
