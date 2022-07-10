@@ -1,9 +1,9 @@
 import React from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-import { Box, Container, Typography } from '@mui/material';
+import { Header, WeatherDetails, Wrapper } from 'components';
 import { LocationOnRounded } from '@mui/icons-material';
-import { Header, WeatherDetails } from 'components';
+import { Navigate, useParams } from 'react-router-dom';
 import { selectCityById } from 'store/cities';
+import { Typography } from '@mui/material';
 import { useAppSelector } from 'hooks';
 
 const DetailsPage: React.FC = () => {
@@ -14,30 +14,22 @@ const DetailsPage: React.FC = () => {
   if (!city) return <Navigate to="/" replace />;
 
   return (
-    <Container>
-      <Box
-        display="flex"
-        flexDirection="column"
-        width="100%"
-        height="100vh"
-        pb="100px"
-      >
-        <Header>
-          <LocationOnRounded fontSize="large" color="warning" />
-          <Typography
-            variant="h3"
-            component="h1"
-            textOverflow="ellipsis"
-            overflow="hidden"
-            whiteSpace="nowrap"
-          >
-            {city.fullName}
-          </Typography>
-        </Header>
+    <Wrapper>
+      <Header>
+        <LocationOnRounded fontSize="large" color="warning" />
+        <Typography
+          variant="h3"
+          component="h1"
+          textOverflow="ellipsis"
+          overflow="hidden"
+          whiteSpace="nowrap"
+        >
+          {city.fullName}
+        </Typography>
+      </Header>
 
-        <WeatherDetails cityId={cityId} />
-      </Box>
-    </Container>
+      <WeatherDetails cityId={cityId} />
+    </Wrapper>
   );
 };
 

@@ -1,5 +1,13 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
+import { formatDateDay, formatDateTime } from 'utils';
 import { Link } from 'react-router-dom';
+import { Loader } from 'components';
+import { removeCity, selectCityById } from 'store/cities';
+import { useAppDispatch, useAppSelector } from 'hooks';
+import { Weather } from 'types';
+import { weatherCurrent } from 'services/api';
 import {
   Box,
   Card,
@@ -18,14 +26,6 @@ import {
   RefreshRounded,
   WavesRounded,
 } from '@mui/icons-material';
-import { EntityId } from '@reduxjs/toolkit';
-import { weatherCurrent } from 'services/api';
-import { removeCity, selectCityById } from 'store/cities';
-import { useAppDispatch, useAppSelector } from 'hooks';
-import { formatDateDay, formatDateTime } from 'utils';
-import { Loader } from 'components';
-import { Weather } from 'types';
-import axios from 'axios';
 
 interface WeatherCardProps {
   cityId: EntityId;

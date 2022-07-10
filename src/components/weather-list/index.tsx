@@ -1,9 +1,9 @@
+import axios from 'axios';
 import React, { useEffect } from 'react';
+import { addCity, selectAllCities } from 'store/cities';
 import { Grid } from '@mui/material';
 import { useAppDispatch, useAppSelector } from 'hooks';
 import { WeatherCard } from 'components';
-import { addCity, selectAllCities } from 'store/cities';
-import axios from 'axios';
 
 interface WeatherListProps {
   children: React.ReactNode;

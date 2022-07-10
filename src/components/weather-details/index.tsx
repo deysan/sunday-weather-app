@@ -1,4 +1,12 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
+import { formatDateTime } from 'utils';
+import { selectCityById } from 'store/cities';
+import { useAppSelector } from 'hooks';
+import { useNavigate } from 'react-router-dom';
+import { Weather } from 'types';
+import { weatherDetails } from 'services/api';
 import {
   Box,
   Card,
@@ -7,7 +15,6 @@ import {
   Tooltip,
   useMediaQuery,
 } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import {
   ArrowBackRounded,
   CycloneRounded,
@@ -27,13 +34,6 @@ import {
   WeatherCurrent,
   WeatherDetailsCard,
 } from 'components';
-import { EntityId } from '@reduxjs/toolkit';
-import { useAppSelector } from 'hooks';
-import { weatherDetails } from 'services/api';
-import { formatDateTime } from 'utils';
-import { selectCityById } from 'store/cities';
-import { Weather } from 'types';
-import axios from 'axios';
 
 interface WeatherDetailsProps {
   cityId: EntityId;

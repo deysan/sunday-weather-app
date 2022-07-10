@@ -7,3 +7,4 @@ export * from './weather-current';
 export * from './weather-details';
 export * from './weather-details-card';
 export * from './weather-list';
+export * from './wrapper';

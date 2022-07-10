@@ -1,6 +1,6 @@
-import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
-import { RootState } from 'store';
 import { City } from 'types';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'store';
 
 const citiesAdapter = createEntityAdapter<City>({
   selectId: (city) => city.name,
