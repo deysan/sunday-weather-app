@@ -6,9 +6,12 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 export const Routing: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/city/:cityId" element={<DetailsPage />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
+      <Route path="/sunday-weather-app" element={<MainPage />} />
+      <Route
+        path="/sunday-weather-app/city/:cityId"
+        element={<DetailsPage />}
+      />
+      <Route path="*" element={<Navigate to="/sunday-weather-app" replace />} />
     </Routes>
   );
 };
