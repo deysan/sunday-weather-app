@@ -1,3 +1,7 @@
+# Main Page
+![Main Page](./design/main-page.png)
+# Details Page
+![Details Page](./design/details-page.png)
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
