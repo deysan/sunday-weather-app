@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/sunday-weather-app/static/js/main.a7ae7a51.js",
+    "index.html": "/sunday-weather-app/index.html",
+    "main.a7ae7a51.js.map": "/sunday-weather-app/static/js/main.a7ae7a51.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.a7ae7a51.js"
+  ]
+}
